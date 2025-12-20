@@ -4,6 +4,10 @@
 
 > Exploiter une API gouvernementale open data pour visualiser la qualité de l'eau.
 
+<p align="center">
+  <img src="QualitEau.png" width="700" alt="Aperçu QualitEau">
+</p>
+
 Ce projet a été réalisé dans le cadre du [DevChallenges Week 50](https://devchallenges.yoandev.co/challenge/week-50/).
 
 ## 👨‍💻 Auteur
