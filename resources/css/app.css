@@ -51,5 +51,5 @@ html {
 
 .leaflet-popup-content {
     margin: 12px 16px;
-    font-family: var(--font-sans);
+    font-family: var(--font-sans), serif;
 }
