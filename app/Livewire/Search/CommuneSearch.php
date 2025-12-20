@@ -12,6 +12,8 @@ namespace App\Livewire\Search;
 
 use App\Services\HubEau\HubEauClient;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Http;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
@@ -43,6 +45,17 @@ class CommuneSearch extends Component
         if (strlen($this->query) < 2) {
             return [];
         }
+
+        // Rate limiting: 60 attempts per minute per IP
+        $key = 'commune_search:' . request()->ip();
+
+        if (RateLimiter::tooManyAttempts($key, 60)) {
+            // Optionally, you could log this or return a specific error structure.
+            // For now, we return empty to stop functionality.
+            return [];
+        }
+
+        RateLimiter::hit($key);
 
         // Add lazy evaluation
         $results = Cache::flexible(
