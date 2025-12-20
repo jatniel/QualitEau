@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -6,8 +6,7 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-    'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 
     --color-pure: #0ea5e9;
     --color-deep: #06b6d4;
@@ -21,35 +20,66 @@
     --color-foam: #e2e8f0;
 }
 
-/* Smooth scrolling */
+/* Base styles */
 html {
     scroll-behavior: smooth;
 }
 
-/* Glassmorphism utility */
+/* Focus visible */
+*:focus-visible {
+    outline: 2px solid var(--color-pure);
+    outline-offset: 2px;
+}
+
+/* Glassmorphism */
 .glass {
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
 }
 
-/* Card hover effect */
+/* Card hover */
 .card-hover {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
 .card-hover:hover {
     transform: translateY(-2px);
     box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.1);
 }
 
-/* Leaflet popup customization */
-.leaflet-popup-content-wrapper {
-    border-radius: 12px;
-    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.2);
+/* Parameter card */
+.parameter-card {
+    transition: all 0.2s ease;
+}
+.parameter-card:hover {
+    transform: scale(1.02);
 }
 
-.leaflet-popup-content {
-    margin: 12px 16px;
-    font-family: var(--font-sans), serif;
+
+
+/* Grade animation */
+@keyframes pulse-grade {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+.grade-pulse {
+    animation: pulse-grade 2s ease-in-out infinite;
+}
+
+/* Custom marker */
+.custom-marker {
+    background: transparent;
+    border: none;
+}
+
+/* Print styles */
+@media print {
+    .no-print {
+        display: none !important;
+    }
 }
