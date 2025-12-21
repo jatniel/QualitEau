@@ -11,7 +11,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Trust Cloudflare proxies - required when using Cloudflare SSL
+        $middleware->trustProxies(
+            at: '*', // Cloudflare IPs change, safer to use *
+            headers: \Illuminate\Http\Request::HEADER_X_FORWARDED_ALL
+        );
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
