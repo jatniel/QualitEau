@@ -9,7 +9,7 @@
     {{-- Google Font Inter --}}
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-
+    <script src="https://analytics.ahrefs.com/analytics.js" data-key="bkSK0ZO2XxtyTsMXo6nVeg" async></script>
 
     {{-- Vite assets --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -18,12 +18,12 @@
     @livewireStyles
 </head>
 <body class="font-sans antialiased bg-slate-50 text-slate-900">
+
     {{ $slot }}
+
 
     {{-- Chart.js --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-
-
 
     {{-- Livewire scripts --}}
     @livewireScripts
