@@ -16,6 +16,7 @@
 
     {{-- Livewire styles --}}
     @livewireStyles
+    <meta name="ahrefs-site-verification" content="ce0fac1989467b21d3ef7b4fb57dff62ce745f9123750dcdcfeb8a4c38f954f7">
 </head>
 <body class="font-sans antialiased bg-slate-50 text-slate-900">
 
