@@ -34,7 +34,7 @@
                         {{ $this->summary['commune']['nom'] }}
                     </h1>
                     <p class="text-slate-500">
-                        Code commune: {{ $this->summary['commune']['code'] }}
+                        Code INSEE: {{ $this->summary['commune']['code'] }}
                         @if($this->summary['commune']['reseau'])
                             · Réseau: {{ $this->summary['commune']['reseau'] }}
                         @endif
@@ -66,12 +66,12 @@
                                 }
                             </style>
                         @endonce
-                        
+
                         @foreach(['A', 'B', 'C', 'D', 'E'] as $grade)
                             @php
                                 $isActive = $this->summary['grade'] === $grade;
                                 $color = $this->getGradeColor($grade);
-                                
+
                                 // Explicit class mapping
                                 $textClass = match($color) {
                                     'green' => 'text-green-700',
@@ -255,16 +255,16 @@
                         init() {
                             //console.log('Chart Init Triggered');
                             //console.log('Window.Chart available:', !!window.Chart);
-                            
+
                             const rawData = @js($this->history);
                             //console.log('Raw Data received:', rawData);
-                            
+
                             if (!rawData || (Array.isArray(rawData) && rawData.length === 0)) {
                                 console.warn('Chart data is empty');
                                 return;
                             }
 
-                            // Normalize data: assuming array of {date, value} or similar, 
+                            // Normalize data: assuming array of {date, value} or similar,
                             // but coping with potential Object structure (date => value)
                             let labels = [];
                             let values = [];
