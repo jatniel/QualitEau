@@ -57,7 +57,7 @@
                                         {{ $commune['nom_commune'] }}
                                     </div>
                                     <div class="text-sm text-slate-500">
-                                        ({{ $commune['code_commune'] }})
+                                        (Code INSEE: {{ $commune['code_commune'] }})
                                     </div>
                                 </div>
 
