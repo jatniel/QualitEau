@@ -32,4 +32,4 @@ Route::get('/commune/{code}', function (string $code, HubEauClient $client) {
         'code' => $code,
         'commune' => (object) $commune,
     ]);
-})->name('commune.show');
+})->where('code', '[0-9]{5}')->name('commune.show');

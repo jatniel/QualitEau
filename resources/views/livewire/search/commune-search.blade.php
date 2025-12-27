@@ -27,7 +27,7 @@
 
     {{-- Helper text --}}
     <p class="mt-2 text-sm text-slate-500 text-center">
-        Entrez le nom de votre commune ou son code INSEE
+        Entrez le nom de votre commune ou son code INSEE (ex: 40088 pour Dax, différent du code postal)
     </p>
 
     {{-- Search results dropdown --}}
@@ -49,7 +49,7 @@
                         <li>
                             <button
                                 type="button"
-                                wire:click="selectCommune('{{ $commune['code_commune'] }}', '{{ $commune['nom_commune'] }}')"
+                                wire:click="selectCommune(@js($commune['code_commune']), @js($commune['nom_commune']))"
                                 class="w-full px-4 py-3 flex items-center justify-between hover:bg-sky-50 transition-colors duration-150 group"
                             >
                                 <div class="flex-1 text-left">

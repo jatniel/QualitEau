@@ -19,11 +19,20 @@ use Illuminate\Support\Facades\Http;
  */
 class HubEauClient
 {
-    private const BASE_URL = 'https://hubeau.eaufrance.fr/api/v1/qualite_eau_potable';
-    private const CACHE_TTL = 3600; // 1 hour in seconds
-    private const REQUEST_TIMEOUT = 30;
-    private const RETRY_ATTEMPTS = 3;
-    private const RETRY_DELAY = 100; // milliseconds
+    private readonly string $baseUrl;
+    private readonly int $cacheTtl;
+    private readonly int $timeout;
+    private readonly int $retryAttempts;
+    private readonly int $retryDelay;
+
+    public function __construct()
+    {
+        $this->baseUrl = config('hubeau.base_url');
+        $this->cacheTtl = (int) config('hubeau.cache.ttl');
+        $this->timeout = (int) config('hubeau.http.timeout');
+        $this->retryAttempts = (int) config('hubeau.http.retry.times');
+        $this->retryDelay = (int) config('hubeau.http.retry.sleep');
+    }
 
     /**
      * Search communes by name with autocomplete
@@ -32,7 +41,7 @@ class HubEauClient
     {
         $cacheKey = "hubeau.communes.search.{$query}.{$limit}";
 
-        return Cache::remember($cacheKey, self::CACHE_TTL, function () use ($query, $limit) {
+        return Cache::remember($cacheKey, $this->cacheTtl, function () use ($query, $limit) {
             $response = $this->makeRequest('/communes_udi', [
                 'nom_commune' => $query,
                 'size' => $limit,
@@ -50,7 +59,7 @@ class HubEauClient
     {
         $cacheKey = "hubeau.commune.{$codeCommune}";
 
-        return Cache::remember($cacheKey, self::CACHE_TTL, function () use ($codeCommune) {
+        return Cache::remember($cacheKey, $this->cacheTtl, function () use ($codeCommune) {
             $response = $this->makeRequest('/communes_udi', [
                 'code_commune' => $codeCommune,
                 'annee' => date('Y'),
@@ -91,7 +100,7 @@ class HubEauClient
 
         $cacheKey = 'hubeau.results.' . md5(serialize($params));
 
-        return Cache::remember($cacheKey, self::CACHE_TTL, function () use ($params) {
+        return Cache::remember($cacheKey, $this->cacheTtl, function () use ($params) {
             $response = $this->makeRequest('/resultats_dis', $params);
 
             return $response['data'] ?? [];
@@ -172,13 +181,13 @@ class HubEauClient
      */
     private function makeRequest(string $endpoint, array $params = []): array
     {
-        $url = self::BASE_URL . $endpoint;
-        $response = Http::timeout(self::REQUEST_TIMEOUT)
+        $url = $this->baseUrl . $endpoint;
+        $response = Http::timeout($this->timeout)
             ->withOptions([
                 'version' => 2.0, // Force HTTP/2
                 'verify' => true,
             ])
-            ->retry(self::RETRY_ATTEMPTS, self::RETRY_DELAY, function ($exception) {
+            ->retry($this->retryAttempts, $this->retryDelay, function ($exception) {
                 return $exception instanceof RequestException;
             })
             ->get($url, $params);
