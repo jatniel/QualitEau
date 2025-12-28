@@ -13,6 +13,13 @@
     RewriteCond %{HTTP:x-xsrf-token} .
     RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
 
+    # Desactive mod_security livewire
+    <IfModule mod_security2.c>
+        <LocationMatch "^/livewire/(update|upload-file|message)">
+            SecRuleEngine Off
+        </LocationMatch>
+    </IfModule>
+    
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
